@@ -22,6 +22,9 @@ interface ActionsProps {
     title: string;
 }
 
+import { ConfirmModal } from "./confirm-modal";
+import { Button } from "./ui/button";
+
 export const Actions = ({
     children,
     side,
@@ -63,13 +66,20 @@ export const Actions = ({
                     <Link2 className="h-4 w-4 mr-2" />
                     Copy board link
                 </DropdownMenuItem>
-                <DropdownMenuItem
-                    className="p-3 cursor-pointer"
-                    onClick={onDelete}
+                <ConfirmModal
+                    header="Delete board?"
+                    description="This will delete the board and all its contents."
+                    disabled={pending}
+                    onConfirm={onDelete}
                 >
-                    <Trash2 className="h-4 w-4 mr-2" />
-                    Delete
-                </DropdownMenuItem>
+                    <Button
+                        variant="ghost"
+                        className="p-3 cursor-pointer text-sm w-full justify-start font-normal"
+                    >
+                        <Trash2 className="h-4 w-4 mr-2" />
+                        Delete
+                    </Button>
+                </ConfirmModal>
             </DropdownMenuContent>
         </DropdownMenu>
     )
