@@ -18,7 +18,6 @@ export const UserAvatar = ({
     fallback,
     borderColor
 }: UserAvatarProps) => {
-    console.log(name);
     return (
         <Hint label={name || "Teammate"} side="bottom" sideOffset={18}>
             <Avatar
