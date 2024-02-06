@@ -1,8 +1,7 @@
 import { Loader } from 'lucide-react';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Participants } from './participants';
-import { Info } from './info';
-import { Toolbar } from './toolbar';
+import { ParticipantsSkeleton } from './participants';
+import { InfoSkeleton } from './info';
+import { ToolbarSkeleton } from './toolbar';
 
 export const Loading = () => {
     return (
@@ -10,9 +9,9 @@ export const Loading = () => {
             className="h-full w-full relative bg-neutral-100 touch-none flex items-center justify-center"
         >
             <Loader className="h-6 w-6 text-muted-foreground animate-spin" />
-            <Info.Skeleton />
-            <Participants.Skeleton />
-            <Toolbar.Skeleton />
+            <InfoSkeleton />
+            <ParticipantsSkeleton />
+            <ToolbarSkeleton />
         </main>
     )
 }
