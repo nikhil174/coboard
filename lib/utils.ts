@@ -87,7 +87,7 @@ export function findIntersectingLayersWithRectangle(
     if (layer === null)
       continue;
 
-    const { x, y, height, width } = layer;
+    const { x, y, height, width } = layer!;
 
     if (
       rect.x + rect.width > x &&

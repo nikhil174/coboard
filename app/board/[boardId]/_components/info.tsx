@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { api } from "@/convex/_generated/api";
+import { Id } from "@/convex/_generated/dataModel";
 import { useQuery } from "convex/react";
 import { Poppins } from "next/font/google";
 import { cn } from "@/lib/utils";
