@@ -1,7 +1,7 @@
 "use client";
 
 import { nanoid } from "nanoid";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Info } from "./info";
 import { Participants } from "./participants";
 import { Toolbar } from "./toolbar";
@@ -14,6 +14,8 @@ import { LayerPreview } from "./layer-preview";
 import { SelectionBox } from "@/app/board/[boardId]/_components/selection-box";
 import { SelectionTools } from "./selection-tools";
 import { Path } from "./Path";
+import { useDisableScrollBounce } from "@/hooks/use-disable-scroll-bounce";
+import { useDeleteLayers } from "@/hooks/use-delete-layers";
 
 const MAX_LAYERS = 100;
 
@@ -36,6 +38,7 @@ export const Canvas = ({
         b: 0,
     });
 
+    useDisableScrollBounce();
     const history = useHistory();
     const canUndo = useCanUndo();
     const canRedo = useCanRedo();
@@ -160,10 +163,10 @@ export const Canvas = ({
             cursor: point,
             pencilDraft:
                 pencilDraft.length === 1 &&
-                pencilDraft[0][0] === point.x &&
-                pencilDraft[0][1] === point.y
-                 ? pencilDraft 
-                 : [...pencilDraft, [point.x, point.y, e.pressure]]
+                    pencilDraft[0][0] === point.x &&
+                    pencilDraft[0][1] === point.y
+                    ? pencilDraft
+                    : [...pencilDraft, [point.x, point.y, e.pressure]]
         })
     }, [canvasState.mode])
 
@@ -388,6 +391,31 @@ export const Canvas = ({
 
         return layerIdsToColorSelection;
     }, [selections]);
+
+    const deleteLayers = useDeleteLayers();
+    useEffect(() => {
+        function onKeyDown(e: KeyboardEvent) {
+            switch (e.key) {
+                // case "Backspace":
+                //     deleteLayers();
+                //     break;
+                case "z": {
+                    if (e.ctrlKey || e.metaKey) {
+                        if (e.shiftKey)
+                            history.redo();
+                        else
+                            history.undo();
+                        break;
+                    }
+                }
+            }
+        }
+
+        document.addEventListener("keydown", onKeyDown);
+        return () => {
+            document.removeEventListener("keydown", onKeyDown);
+        }
+    }, [deleteLayers, history])
 
     return (
         <main
